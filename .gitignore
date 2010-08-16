@@ -1,0 +1,16 @@
+*~
+*.html
+*.tex
+*.pdf
+*.png
+*.rtf
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.out
+*.toc
+*.synctex.gz
+.DS_Store
+Maude
