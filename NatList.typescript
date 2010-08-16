@@ -1,0 +1,22 @@
+Maude> parse 1, 2, 3, nil .
+NatList: 1,2,3,nil
+Maude> parse 1, 2, 3 .
+NatList: 1,2,3
+Maude> parse len(1, 2, 3) .
+Nat: len(1,2,3)
+
+Maude> reduce 1, 2, nil, 3, 4, nil .
+result NatList: 1,2,3,4
+Maude> reduce len(1, 2, 3, 4) .
+result NzNat: 4
+Maude> reduce rev(1, 2, 3, 4) .
+result NatList: 4,3,2,1
+Maude> reduce len(rev(1, 2, 3, 4)) .
+result NzNat: 4
+Maude> reduce rev(rev(1, 2, 3, 4)) .
+result NatList: 1,2,3,4
+
+Maude> match N, L <=? 1, 2, 3, 4 .
+Solution 1
+N --> 1
+L --> 2,3,4

@@ -1,0 +1,138 @@
+logic CASL.SulHorn=
+spec CLOCK =
+sorts Bool, Clock, kind_Bool, kind_Clock
+sorts Bool < kind_Bool; Clock < kind_Clock
+op 0 : Clock
+op 0 : kind_Clock
+op __implies__ : Bool * Bool -> Bool
+op __implies__ : kind_Bool * kind_Bool -> kind_Bool
+op __maudeAnd__ : Bool * Bool -> Bool
+op __maudeAnd__ : kind_Bool * kind_Bool -> kind_Bool
+op __or__ : Bool * Bool -> Bool
+op __or__ : kind_Bool * kind_Bool -> kind_Bool
+op __xor__ : Bool * Bool -> Bool
+op __xor__ : kind_Bool * kind_Bool -> kind_Bool
+op maudeFalse : Bool
+op maudeFalse : kind_Bool
+op maudeTrue : Bool
+op maudeTrue : kind_Bool
+op neg__ : Bool -> Bool
+op neg__ : kind_Bool -> kind_Bool
+op t__ : Clock -> Clock
+op t__ : kind_Clock -> kind_Clock
+pred rew : Bool * Bool
+pred rew : Clock * Clock
+pred rew : kind_Bool * kind_Bool
+pred rew : kind_Clock * kind_Clock
+
+forall V : Bool . rew(V, V) %(rew_refl_Bool)%
+
+forall V1, V2, V3 : Bool
+. rew(V1, V2) /\ rew(V2, V3) => rew(V1, V3)     %(rew_trans_Bool)%
+
+forall V : Clock . rew(V, V) %(rew_refl_Clock)%
+
+forall V1, V2, V3 : Clock
+. rew(V1, V2) /\ rew(V2, V3) => rew(V1, V3)    %(rew_trans_Clock)%
+
+forall V : kind_Bool . rew(V, V) %(rew_refl_kind_Bool)%
+
+forall V1, V2, V3 : kind_Bool
+. rew(V1, V2) /\ rew(V2, V3) => rew(V1, V3)
+                                           %(rew_trans_kind_Bool)%
+
+forall V : kind_Clock . rew(V, V) %(rew_refl_kind_Clock)%
+
+forall V1, V2, V3 : kind_Clock
+. rew(V1, V2) /\ rew(V2, V3) => rew(V1, V3)
+                                          %(rew_trans_kind_Clock)%
+
+forall V0, V1 : Clock . rew(V0, V1) => rew(t V0, t V1)
+                                                  %(rew_cong_t__)%
+
+forall V0, V1 : kind_Clock . rew(V0, V1) => rew(t V0, t V1)
+                                                %(rew_cong_t___1)%
+
+forall V0, V1 : Bool . rew(V0, V1) => rew(neg V0, neg V1)
+                                                %(rew_cong_neg__)%
+
+forall V0, V1 : kind_Bool . rew(V0, V1) => rew(neg V0, neg V1)
+                                              %(rew_cong_neg___2)%
+
+forall V0, V1, V2, V3 : Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 xor V1, V2 xor V3)
+                                              %(rew_cong___xor__)%
+
+forall V0, V1, V2, V3 : kind_Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 xor V1, V2 xor V3)
+                                            %(rew_cong___xor___3)%
+
+forall V0, V1, V2, V3 : Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 or V1, V2 or V3)
+                                               %(rew_cong___or__)%
+
+forall V0, V1, V2, V3 : kind_Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 or V1, V2 or V3)
+                                             %(rew_cong___or___4)%
+
+forall V0, V1, V2, V3 : Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 maudeAnd V1, V2 maudeAnd V3)
+                                         %(rew_cong___maudeAnd__)%
+
+forall V0, V1, V2, V3 : kind_Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 maudeAnd V1, V2 maudeAnd V3)
+                                       %(rew_cong___maudeAnd___5)%
+
+forall V0, V1, V2, V3 : Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 implies V1, V2 implies V3)
+                                          %(rew_cong___implies__)%
+
+forall V0, V1, V2, V3 : kind_Bool
+. rew(V0, V2) /\ rew(V1, V3) => rew(V0 implies V1, V2 implies V3)
+                                        %(rew_cong___implies___6)%
+
+forall v1, v2, v3 : kind_Bool
+. (v1 maudeAnd v2) maudeAnd v3 = v1 maudeAnd (v2 maudeAnd v3)
+                                                           %(Ax1)%
+
+forall v1, v2 : kind_Bool . v1 maudeAnd v2 = v2 maudeAnd v1 %(Ax2)%
+
+forall v1, v2, v3 : kind_Bool . (v1 or v2) or v3 = v1 or (v2 or v3)
+                                                           %(Ax3)%
+
+forall v1, v2 : kind_Bool . v1 or v2 = v2 or v1 %(Ax4)%
+
+forall v1, v2, v3 : kind_Bool
+. (v1 xor v2) xor v3 = v1 xor (v2 xor v3)                  %(Ax5)%
+
+forall v1, v2 : kind_Bool . v1 xor v2 = v2 xor v1 %(Ax6)%
+
+forall A : kind_Bool . A in Bool => A maudeAnd A = A %(Ax7)%
+
+forall A, B, C : kind_Bool
+. A in Bool /\ B in Bool /\ C in Bool
+  => A maudeAnd (B xor C) = (A maudeAnd B) xor (A maudeAnd C)
+                                                           %(Ax8)%
+
+forall A : kind_Bool
+. A in Bool => maudeFalse maudeAnd A = maudeFalse          %(Ax9)%
+
+forall A : kind_Bool . A in Bool => maudeTrue maudeAnd A = A
+                                                          %(Ax10)%
+
+forall A, B : kind_Bool
+. A in Bool /\ B in Bool
+  => A implies B = neg (A xor (A maudeAnd B))             %(Ax11)%
+
+forall A, B : kind_Bool
+. A in Bool /\ B in Bool => A or B = (A maudeAnd B) xor (A xor B)
+                                                          %(Ax12)%
+
+forall A : kind_Bool . A in Bool => A xor A = maudeFalse %(Ax13)%
+
+forall A : kind_Bool . A in Bool => maudeFalse xor A = A %(Ax14)%
+
+forall A : kind_Bool . A in Bool => neg A = maudeTrue xor A
+                                                          %(Ax15)%
+
+forall C : kind_Clock . C in Clock => rew(C, t C) %(Ax1_16)%

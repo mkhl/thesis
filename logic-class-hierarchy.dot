@@ -1,0 +1,17 @@
+digraph logic_class_hierarchy {
+  rankdir=LR
+
+  logic [label="Logic"]
+  stat_ana [label="StaticAnalysis"]
+  synt [label="Syntax"]
+  sent [label="Sentences"]
+  cat  [label="Category"]
+  lang [label="Language"]
+
+  lang -> synt
+  lang -> cat
+  cat -> sent
+  sent -> stat_ana
+  synt -> stat_ana
+  stat_ana -> logic
+}

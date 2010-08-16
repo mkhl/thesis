@@ -1,0 +1,26 @@
+library SPO_PO
+
+spec STRICT_PARTIAL_ORDER =
+    sort Elem
+
+    pred __ < __ : Elem * Elem
+
+    forall x, y, z : Elem
+    . not (x < x)                   %(SPO_strict)%
+    . x < y => not (y < x)          %(SPO_asymmetric)%
+    . x < y /\ y < z => x < z       %(SPO_transitive)%
+end
+
+spec PARTIAL_ORDER =
+    STRICT_PARTIAL_ORDER
+then
+    pred __ <= __ : Elem * Elem
+
+    forall x, y : Elem
+    . x <= y <=> x < y \/ x = y
+then %implies
+    forall x, y, z : Elem
+    . x <= x                        %(PO_reflexive)%
+    . x <= y /\ y <= x => x = y     %(PO_antisymmetric)%
+    . x <= y /\ y <= z => x <= z    %(PO_transitive)%
+end

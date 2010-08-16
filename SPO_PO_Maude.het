@@ -1,0 +1,30 @@
+library SPO_PO_Maude
+logic Maude
+spec PROVE_PARTIAL_ORDER =
+    free
+    {
+        sort Elt .
+        op _<_ : Elt Elt -> Bool .
+        vars X Y Z : Elt .
+        eq X < X = false [nonexec label strict] .
+        ceq Y < X = false
+            if X < Y [nonexec label asymmetric] .
+        ceq X < Z = true
+            if X < Y /\ Y < Z [nonexec label transitive] .
+    }
+    then
+    {
+        op _<=_ : Elt Elt -> Bool .
+        vars X Y : Elt .
+        eq X <= Y = X < Y or X == Y .
+    }
+    then %implies
+    {
+        vars X Y Z : Elt .
+        eq X <= X = true [nonexec label reflexive] .
+        ceq X == Y = true
+            if X <= Y /\ Y <= X [nonexec label antisymmetric] .
+        ceq X <= Z = true
+            if X <= Y /\ Y <= Z [nonexec label transitive] .
+    }
+end

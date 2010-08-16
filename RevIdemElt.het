@@ -1,0 +1,23 @@
+logic Maude
+spec REVIDEM =
+    free
+    {
+        sorts Elt List .
+        subsort Elt < List .
+        op nil : -> List [ctor] .
+        op __ : List List -> List [ctor assoc id: nil] .
+    }
+    then
+    {
+        op rev : List -> List .
+        var E : Elt .
+        var L : List .
+        eq rev(nil) = nil .
+        eq rev(E L) = rev(L) E .
+    }
+    then %implies
+    {
+        var E : Elt .
+        eq rev(rev(E)) = E .
+    }
+end

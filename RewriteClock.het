@@ -1,0 +1,8 @@
+from Clock get CLOCK
+
+spec REWRITE_CLOCK = CLOCK then %implies
+{
+    . rew(0, t t t t t 0)
+    forall C : Clock
+    . rew(C, t t t t t C)
+}

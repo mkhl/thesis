@@ -1,0 +1,11 @@
+My diploma thesis, ``Integrating Maude into Hets''.
+
+To build the PDF, I used:
+* Hets, at least version 0.95, to pretty-print `.het` files
+* Maude, possibly
+* Plan9 from User Space, specifically
+  + mk to script the build
+  + sam to "fix" pretty-printed specifications with logic Maude
+* LaTeX and BibTeX, obviously
+
+I used XeTeX and the TeX Gyre fonts.

@@ -1,0 +1,22 @@
+fmod NATLIST is
+  protecting NAT .
+
+  sort NatList .
+  subsort Nat < NatList .
+
+  op nil : -> NatList [ctor] .
+  op _,_ : NatList NatList -> NatList
+    [ctor assoc id: nil] .
+
+  op len : NatList -> Nat .
+  op rev : NatList -> NatList .
+
+  var N : Nat .
+  var L : NatList .
+
+  eq len(nil) = 0 .
+  eq len(N, L) = s len(L) .
+
+  eq rev(nil) = nil .
+  eq rev(N, L) = rev(L), N .
+endfm

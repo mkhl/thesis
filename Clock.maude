@@ -1,0 +1,7 @@
+mod CLOCK is
+  sort Clock .
+  op 0 : -> Clock [ctor] .
+  op t_ : Clock -> Clock [ctor] .
+  var C : Clock .
+  rl [tick] : C => t C .
+endm
